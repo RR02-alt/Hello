@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battleground Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            width: 80%;
+            max-width: 600px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Battleground Game</h1>
+        <div id="gameArea">
+            <p>Click Start Game to begin.</p>
+            <button onclick="startGame()">Start Game</button>
+        </div>
+    </div>
+
+    <script>
+        // Game variables
+        let player = {
+            name: "Player",
+            health: 100,
+            attackPower: 10
+        };
+
+        let opponent = {
+            name: "Enemy",
+            health: 50,
+            attackPower: 5
+        };
+
+        let round = 1;
+
+        // Function to start the game
+        function startGame() {
+            document.getElementById('gameArea').innerHTML = `<p>Round ${round}</p>
+            <p>${player.name} HP: ${player.health}</p>
+            <p>${opponent.name} HP: ${opponent.health}</p>
+            <button onclick="playerAttack()">Attack</button>
+            <button onclick="playerDefend()">Defend</button>`;
+        }
+
+        // Player attack function
+        function playerAttack() {
+            let playerDamage = Math.floor(Math.random() * player.attackPower) + 1;
+            opponent.health -= playerDamage;
+            if (opponent.health <= 0) {
+                endGame(`${opponent.name} defeated!`);
+            } else {
+                opponentAttack();
+            }
+        }
+
+        // Opponent attack function
+        function opponentAttack() {
+            let opponentDamage = Math.floor(Math.random() * opponent.attackPower) + 1;
+            player.health -= opponentDamage;
+            if (player.health <= 0) {
+                endGame(`${player.name} defeated!`);
+            } else {
+                displayGameStatus();
+            }
+        }
+
+        // Function to display game status
+        function displayGameStatus() {
+            round++;
+            document.getElementById('gameArea').innerHTML = `<p>Round ${round}</p>
+            <p>${player.name} HP: ${player.health}</p>
+            <p>${opponent.name} HP: ${opponent.health}</p>
+            <button onclick="playerAttack()">Attack</button>
+            <button onclick="playerDefend()">Defend</button>`;
+        }
+
+        // Function to end the game
+        function endGame(message) {
+            document.getElementById('gameArea').innerHTML = `<p>${message}</p>
+            <button onclick="startGame()">Play Again</button>`;
+        }
+    </script>
+</body>
+</html>
